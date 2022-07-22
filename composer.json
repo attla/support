@@ -1,0 +1,36 @@
+{
+    "name": "attla/support",
+    "description": "Collection of resources to improve and extend ways to use laravel.",
+    "keywords": [
+        "attla",
+        "laravel",
+        "collection",
+        "resources",
+        "support"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucas Nicolau",
+            "email": "lucas@octha.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "attla/data-token": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "Attla\\Support\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Attla\\Support\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
