@@ -43,11 +43,11 @@ use Illuminate\Support\Stringable;
 
 AttlaStr::isBase64($value); // bool
 Str::isBase64($value); // bool
-(new Stringable($value))->isBase64($value); // bool
+(new Stringable($value))->isBase64(); // bool
 
 AttlaStr::isHttpQuery($value); // bool
 Str::isHttpQuery($value); // bool
-(new Stringable($value))->isHttpQuery($value); // bool
+(new Stringable($value))->isHttpQuery(); // bool
 
 AttlaStr::isSerialized($value); // bool
 Str::isSerialized($value); // bool
