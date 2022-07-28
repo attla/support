@@ -51,6 +51,8 @@ function SupRegister($extends = [])
 {
     foreach ($extends as $extend) {
         foreach ($extend['to'] ?? [] as $argType => $toClass) {
+            is_int($argType) && $argType = 'spread';
+
             foreach ($extend['methods'] ?? [] as $method) {
                 ($toClass)::{'macro'}(
                     $method,
