@@ -3,8 +3,10 @@
 namespace Attla\Support;
 
 use Illuminate\Support\Enumerable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\{
+    Arrayable,
+    Jsonable
+};
 
 class Arr
 {
