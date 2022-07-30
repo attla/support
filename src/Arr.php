@@ -3,6 +3,7 @@
 namespace Attla\Support;
 
 use Illuminate\Support\Enumerable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\{
     Arrayable,
     Jsonable
@@ -20,6 +21,8 @@ class Arr
     {
         if (is_array($value)) {
             return $value;
+        } elseif ($value instanceof Model) {
+            return $value->getAttributes();
         } elseif ($value instanceof Enumerable) {
             return $value->all();
         } elseif ($value instanceof Arrayable) {
