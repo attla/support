@@ -9,14 +9,14 @@ trait AbstractData
     /**
      * Store property values
      *
-     * @return array
+     * @var array
      */
     protected $dtoData = [];
 
     /**
      * Get all properties from object
      *
-     * @var object $object
+     * @param object $object
      * @return array
      */
     private function getProperties(object $object)
@@ -42,8 +42,8 @@ trait AbstractData
     /**
      * Set properties to destination
      *
-     * @var object $destination
-     * @var array $properties
+     * @param object $destination
+     * @param array $properties
      * @return void
      */
     private function setProperties(
@@ -64,8 +64,8 @@ trait AbstractData
     /**
      * Map properties from source to destination
      *
-     * @var object $source
-     * @var object $destination
+     * @param object $source
+     * @param object $destination
      * @return void
      */
     private function mapProperties(
@@ -84,7 +84,7 @@ trait AbstractData
     /**
      * Initialize the data transfer object
      *
-     * @var object|array $data
+     * @param object|array $data
      * @return void
      */
     protected function init(object|array $source = [])
@@ -291,7 +291,7 @@ trait AbstractData
     /**
      * Create a new DTO instance
      *
-     * @var object|array $source
+     * @param object|array $source
      * @return void
      */
     public function __construct(object|array $source = [])
