@@ -2,7 +2,7 @@
 
 namespace Attla\Support;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Str as LaravelStr;
 
 trait AbstractData
 {
@@ -96,6 +96,28 @@ trait AbstractData
     }
 
     /**
+     * Remove prefix from property name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function removeFromStart(string $string, $removes = [])
+    {
+        if (LaravelStr::startsWith($string, $removes = Arr::toArray($removes))) {
+            $id = '#42';
+            $string = $id . $string;
+
+            array_map(function ($prefix) use (&$string, $id) {
+                $string = str_replace($id . $prefix, '', $string);
+            }, $removes);
+
+            $string = str_replace($id, '', $string);
+        }
+
+        return $string;
+    }
+
+    /**
      * Get an attribute value
      *
      * @param string $name
@@ -103,9 +125,12 @@ trait AbstractData
      */
     protected function get(string $name)
     {
-        $value = $this->dtoData[Str::camel($name)] ?? null;
+        $originalName = $name;
+        $name = $this->removeFromStart($name, ['Get', 'get']);
 
-        if (method_exists($this, $getter = 'get' . Str::studly($name))) {
+        $value = $this->dtoData[LaravelStr::camel($name)] ?? $this->dtoData[LaravelStr::camel($originalName)] ?? null;
+
+        if (method_exists($this, $getter = 'get' . LaravelStr::studly($name))) {
             return $this->{$getter}($value);
         }
 
@@ -120,8 +145,8 @@ trait AbstractData
      */
     protected function isset(string $name): bool
     {
-        return isset($this->dtoData[Str::camel($name)])
-            || method_exists($this, 'get' . Str::studly($name));
+        return isset($this->dtoData[LaravelStr::camel($name)])
+            || $this->get($name);
     }
 
     /**
@@ -133,8 +158,19 @@ trait AbstractData
      */
     protected function set(string $name, $value): void
     {
-        $this->dtoData[Str::camel($name)] = method_exists($this, $setter = 'set' . Str::studly($name))
-            ? $this->{$setter}($value)
+        $setterValue = $undefined = '#42';
+
+        $name = $this->removeFromStart($name, ['Set', 'set']);
+
+        if (method_exists($this, $setter = 'set' . LaravelStr::studly($name))) {
+            $setterValue = $this->{$setter}($value);
+        }
+
+        $self = get_called_class();
+
+        $this->dtoData[LaravelStr::camel($name)] = $setterValue !== $undefined
+            && $setterValue instanceof $self
+            ? $setterValue
             : $value;
     }
 
@@ -297,6 +333,20 @@ trait AbstractData
     public function __construct(object|array $source = [])
     {
         $this->init($source);
+    }
+
+    /**
+     * Dynamically retrieve or set the value
+     *
+     * @param string $name
+     * @param array $args
+     * @return mixed
+     */
+    public function __call($name, array $args)
+    {
+        return LaravelStr::startsWith(strtolower($name), 'get')
+            ? $this->get($name, ...$args)
+            : $this->set($name, ...$args);
     }
 
     /**
