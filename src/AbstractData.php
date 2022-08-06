@@ -169,7 +169,7 @@ trait AbstractData
         $self = get_called_class();
 
         $this->dtoData[LaravelStr::camel($name)] = $setterValue !== $undefined
-            && $setterValue instanceof $self
+            && !$setterValue instanceof $self
             ? $setterValue
             : $value;
     }
