@@ -101,18 +101,13 @@ trait AbstractData
      * @param string $name
      * @return string
      */
-    protected function removeFromStart(string $string, $removes = [])
+    protected function removeFromStart(string $string, $prefixes = [])
     {
-        if (LaravelStr::startsWith($string, $removes = Arr::toArray($removes))) {
-            $id = '#42';
-            $string = $id . $string;
-
-            array_map(function ($prefix) use (&$string, $id) {
-                $string = str_replace($id . $prefix, '', $string);
-            }, $removes);
-
-            $string = str_replace($id, '', $string);
-        }
+        array_map(function ($prefix) use (&$string) {
+            if (LaravelStr::startsWith($string, $prefix)) {
+                $string = LaravelStr::after($string, $prefix);
+            }
+        }, Arr::toArray($prefixes));
 
         return $string;
     }
