@@ -125,7 +125,7 @@ trait AbstractData
 
         $value = $this->dtoData[$name] ?? $this->dtoData[$originalName] ?? null;
 
-        if (method_exists($this, $getter = 'get' . LaravelStr::studly($name))) {
+        if ($this->hasMethod($getter = 'get' . LaravelStr::studly($name))) {
             return $this->{$getter}($value);
         }
 
@@ -141,7 +141,7 @@ trait AbstractData
     protected function isset(string $name): bool
     {
         return isset($this->dtoData[$name])
-            || $this->get($name);
+            || $this->hasMethod('get' . LaravelStr::studly($name));
     }
 
     /**
@@ -157,7 +157,7 @@ trait AbstractData
 
         $name = $this->removeFromStart($name, ['Set', 'set']);
 
-        if (method_exists($this, $setter = 'set' . LaravelStr::studly($name))) {
+        if ($this->hasMethod($setter = 'set' . LaravelStr::studly($name))) {
             $setterValue = $this->{$setter}($value);
         }
 
@@ -210,6 +210,17 @@ trait AbstractData
         }
 
         return $data;
+    }
+
+    /**
+     * Determine if the method exists
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasMethod(string $name): bool
+    {
+        return method_exists($this, $name);
     }
 
     /**
