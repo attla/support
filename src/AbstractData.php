@@ -123,7 +123,7 @@ trait AbstractData
         $originalName = $name;
         $name = $this->removeFromStart($name, ['Get', 'get']);
 
-        $value = $this->dtoData[LaravelStr::camel($name)] ?? $this->dtoData[LaravelStr::camel($originalName)] ?? null;
+        $value = $this->dtoData[$name] ?? $this->dtoData[$originalName] ?? null;
 
         if (method_exists($this, $getter = 'get' . LaravelStr::studly($name))) {
             return $this->{$getter}($value);
@@ -140,7 +140,7 @@ trait AbstractData
      */
     protected function isset(string $name): bool
     {
-        return isset($this->dtoData[LaravelStr::camel($name)])
+        return isset($this->dtoData[$name])
             || $this->get($name);
     }
 
@@ -163,7 +163,7 @@ trait AbstractData
 
         $self = get_called_class();
 
-        $this->dtoData[LaravelStr::camel($name)] = $setterValue !== $undefined
+        $this->dtoData[$name] = $setterValue !== $undefined
             && !$setterValue instanceof $self
             ? $setterValue
             : $value;
