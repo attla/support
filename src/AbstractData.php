@@ -98,14 +98,14 @@ trait AbstractData
     /**
      * Remove prefix from property name
      *
-     * @param string $name
+     * @param string $string
      * @return string
      */
-    protected function removeFromStart(string $string, $prefixes = [])
+    protected function removePrefix(string $string, $prefixes = [])
     {
         foreach (Arr::toArray($prefixes) as $prefix) {
-            if (LaravelStr::startsWith($string, $prefix)) {
-                return lcfirst(LaravelStr::after($string, $prefix));
+            if (LaravelStr::startsWith(strtolower($string), strtolower($prefix))) {
+                $string = lcfirst(substr($string, strlen($prefix)));
             }
         }
 
@@ -121,7 +121,8 @@ trait AbstractData
     protected function get(string $name)
     {
         $originalName = $name;
-        $name = $this->removeFromStart($name, ['Get', 'get']);
+
+        $name = $this->removePrefix($name, 'get');
 
         $value = $this->dtoData[$name] ?? $this->dtoData[$originalName] ?? null;
 
@@ -141,7 +142,8 @@ trait AbstractData
     protected function isset(string $name): bool
     {
         return key_exists($name, $this->dtoData)
-            || $this->hasMethod('get' . LaravelStr::studly($name));
+            || $this->hasMethod('get' . LaravelStr::studly($name = $this->removePrefix($name, 'get')))
+            || key_exists($name, $this->dtoData);
     }
 
     /**
@@ -155,7 +157,7 @@ trait AbstractData
     {
         $setterValue = $undefined = '#!@undefined@!#';
 
-        $name = $this->removeFromStart($name, ['Set', 'set']);
+        $name = $this->removePrefix($name, 'set');
 
         if ($this->hasMethod($setter = 'set' . LaravelStr::studly($name))) {
             $setterValue = $this->{$setter}($value);
@@ -163,8 +165,7 @@ trait AbstractData
 
         $self = get_called_class();
 
-        $this->dtoData[$name] = $setterValue !== $undefined
-            && !$setterValue instanceof $self
+        $this->dtoData[$name] = $setterValue !== $undefined && !$setterValue instanceof $self
             ? $setterValue
             : $value;
     }
