@@ -140,7 +140,7 @@ trait AbstractData
      */
     protected function isset(string $name): bool
     {
-        return isset($this->dtoData[$name])
+        return key_exists($name, $this->dtoData)
             || $this->hasMethod('get' . LaravelStr::studly($name));
     }
 
