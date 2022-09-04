@@ -153,7 +153,7 @@ trait AbstractData
      */
     protected function set(string $name, $value): void
     {
-        $setterValue = $undefined = '#42';
+        $setterValue = $undefined = '#!@undefined@!#';
 
         $name = $this->removeFromStart($name, ['Set', 'set']);
 
