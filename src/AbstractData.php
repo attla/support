@@ -350,7 +350,7 @@ trait AbstractData
      */
     public function __call($name, array $args)
     {
-        return LaravelStr::startsWith(strtolower($name), 'get')
+        return $this->isset($name)
             ? $this->get($name, ...$args)
             : $this->set($name, ...$args);
     }
