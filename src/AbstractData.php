@@ -350,8 +350,8 @@ trait AbstractData
      */
     public function __call($name, array $args)
     {
-        return $this->isset($name)
-            ? $this->get($name, ...$args)
+        return $this->isset($name) && empty($args)
+            ? $this->get($name)
             : $this->set($name, ...$args);
     }
 
