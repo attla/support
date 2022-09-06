@@ -151,7 +151,7 @@ trait AbstractData
      *
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @return $this
      */
     protected function set(string $name, $value): void
     {
@@ -168,6 +168,8 @@ trait AbstractData
         $this->dtoData[$name] = $setterValue !== $undefined && !$setterValue instanceof $self
             ? $setterValue
             : $value;
+
+        return $this;
     }
 
     /**
