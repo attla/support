@@ -227,6 +227,17 @@ trait AbstractData
     }
 
     /**
+     * Check if a attribute exists
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has(string $name): bool
+    {
+        return $this->isset($name);
+    }
+
+    /**
      * Create new instance from other source
      *
      * @param object|array $source
