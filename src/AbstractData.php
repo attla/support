@@ -116,9 +116,10 @@ trait AbstractData
      * Get an attribute value
      *
      * @param string $name
+     * @param mixed $default
      * @return mixed|null
      */
-    protected function get(string $name)
+    public function get(string $name, $default = null)
     {
         $originalName = $name;
 
@@ -130,7 +131,7 @@ trait AbstractData
             return $this->{$getter}($value);
         }
 
-        return $value;
+        return $value ?? $default;
     }
 
     /**
