@@ -6,6 +6,8 @@ use Illuminate\Support\Str as LaravelStr;
 
 trait AbstractData
 {
+    use Traits\HasMagicAttributes;
+
     /**
      * Store property values
      *
@@ -152,7 +154,7 @@ trait AbstractData
      *
      * @param string $name
      * @param mixed $value
-     * @return $this
+     * @return void
      */
     protected function set(string $name, $value): void
     {
@@ -177,7 +179,7 @@ trait AbstractData
      * @param string $name
      * @return void
      */
-    protected function unset(string $name): void
+    protected function remove(string $name): void
     {
         if ($this->isset($name)) {
             unset($this->dtoData[$name]);
@@ -368,50 +370,5 @@ trait AbstractData
         }
 
         $this->set($name, ...$args);
-    }
-
-    /**
-     * Dynamically retrieve the value of an attribute
-     *
-     * @param string $key
-     * @return mixed|null
-     */
-    public function __get($key)
-    {
-        return $this->get($key);
-    }
-
-    /**
-     * Dynamically set the value of an attribute
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
-    public function __set($key, $value)
-    {
-        $this->set($key, $value);
-    }
-
-    /**
-     * Dynamically check if an attribute is set
-     *
-     * @param string $key
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        return $this->isset($key);
-    }
-
-    /**
-     * Dynamically unset an attribute
-     *
-     * @param string $key
-     * @return void
-     */
-    public function __unset($key)
-    {
-        $this->unset($key);
     }
 }
