@@ -2,8 +2,20 @@
 
 namespace Attla\Support;
 
-class DataBag implements Interfaces\BagInterface, \IteratorAggregate, \Countable
+use Illuminate\Contracts\Support\{
+    Arrayable,
+    Jsonable
+};
+
+class DataBag extends \ArrayObject implements
+    Interfaces\BagInterface,
+    Arrayable,
+    Jsonable,
+    \JsonSerializable
 {
+    use Traits\HasMagicAttributes;
+    use Traits\HasArrayOffsets;
+
     /**
      * Data storage.
      *
@@ -25,7 +37,7 @@ class DataBag implements Interfaces\BagInterface, \IteratorAggregate, \Countable
     /**
      * Get all the data.
      *
-     * @return array
+     * @return mixed[]
      */
     public function all(): array
     {
@@ -35,7 +47,7 @@ class DataBag implements Interfaces\BagInterface, \IteratorAggregate, \Countable
     /**
      * Returns the data keys.
      *
-     * @return array
+     * @return string[]
      */
     public function keys(): array
     {
@@ -216,6 +228,47 @@ class DataBag implements Interfaces\BagInterface, \IteratorAggregate, \Countable
         }
 
         return filter_var($value, $filter, $options);
+    }
+
+    /**
+     * Get values
+     *
+     * @return mixed[]
+     */
+    public function values(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Transform the data into an array
+     *
+     * @return mixed[]
+     */
+    public function toArray(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Get the array that should be JSON serialized
+     *
+     * @return mixed[]
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Convert the data to JSON
+     *
+     * @param int $options
+     * @return string
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->jsonSerialize(), $options);
     }
 
     /**
