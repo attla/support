@@ -363,9 +363,11 @@ trait AbstractData
      */
     public function __call($name, array $args)
     {
-        return $this->isset($name) && empty($args)
-            ? $this->get($name)
-            : $this->set($name, ...$args);
+        if ($this->isset($name) && empty($args)) {
+            return $this->get($name);
+        }
+
+        $this->set($name, ...$args);
     }
 
     /**
