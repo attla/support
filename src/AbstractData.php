@@ -169,8 +169,6 @@ trait AbstractData
         $this->dtoData[$name] = $setterValue !== $undefined && !$setterValue instanceof $self
             ? $setterValue
             : $value;
-
-        return $this;
     }
 
     /**
