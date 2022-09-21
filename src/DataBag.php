@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\{
 use Illuminate\Support\Collection;
 
 class DataBag extends \ArrayObject implements
-    Interfaces\BagInterface,
+    Interfaces\Baggable,
     Arrayable,
     Jsonable,
     \JsonSerializable
