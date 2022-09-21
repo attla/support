@@ -19,7 +19,7 @@ class DataBag extends \ArrayObject implements
     /**
      * Data storage.
      *
-     * @var array
+     * @var mixed[]
      */
     protected $data = [];
 
@@ -51,7 +51,7 @@ class DataBag extends \ArrayObject implements
      */
     public function keys(): array
     {
-        return array_keys($this->data);
+        return array_keys($this->all());
     }
 
     /**
@@ -62,7 +62,7 @@ class DataBag extends \ArrayObject implements
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->data);
+        return array_key_exists($key, $this->all());
     }
 
     /**
@@ -237,7 +237,7 @@ class DataBag extends \ArrayObject implements
      */
     public function values(): array
     {
-        return $this->data;
+        return $this->all();
     }
 
     /**
@@ -247,7 +247,7 @@ class DataBag extends \ArrayObject implements
      */
     public function toArray(): array
     {
-        return $this->data;
+        return $this->all();
     }
 
     /**
@@ -257,7 +257,7 @@ class DataBag extends \ArrayObject implements
      */
     public function jsonSerialize(): array
     {
-        return $this->data;
+        return $this->all();
     }
 
     /**
@@ -278,7 +278,7 @@ class DataBag extends \ArrayObject implements
      */
     public function getIterator(): \ArrayIterator
     {
-        return new \ArrayIterator($this->data);
+        return new \ArrayIterator($this->all());
     }
 
     /**
@@ -286,6 +286,6 @@ class DataBag extends \ArrayObject implements
      */
     public function count(): int
     {
-        return count($this->data);
+        return count($this->all());
     }
 }
