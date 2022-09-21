@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\{
     Arrayable,
     Jsonable
 };
+use Illuminate\Support\Collection;
 
 class DataBag extends \ArrayObject implements
     Interfaces\BagInterface,
@@ -190,5 +191,15 @@ class DataBag extends \ArrayObject implements
     public function count(): int
     {
         return count($this->all());
+    }
+
+    /**
+     * Get the data as a collection.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function collect(): Collection
+    {
+        return new Collection($this->all());
     }
 }
