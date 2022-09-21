@@ -2,7 +2,7 @@
 
 namespace Attla\Support\Traits;
 
-trait HasTypeGetters
+trait HasGraspableTypes
 {
     /**
      * Returns the alphabetic characters of the data value.

@@ -10,13 +10,14 @@ use Illuminate\Support\Collection;
 
 class DataBag extends \ArrayObject implements
     Interfaces\Baggable,
+    Interfaces\GraspableTypes,
     Arrayable,
     Jsonable,
     \JsonSerializable
 {
     use Traits\HasMagicAttributes;
     use Traits\HasArrayOffsets;
-    use Traits\HasTypeGetters;
+    use Traits\HasGraspableTypes;
 
     /**
      * Data storage.
