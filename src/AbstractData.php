@@ -2,9 +2,16 @@
 
 namespace Attla\Support;
 
+use Illuminate\Contracts\Support\{
+    Arrayable,
+    Jsonable
+};
 use Illuminate\Support\Str as LaravelStr;
 
-trait AbstractData
+class AbstractData extends \ArrayObject implements
+    Arrayable,
+    Jsonable,
+    \JsonSerializable
 {
     use Traits\HasMagicAttributes;
     use Traits\HasArrayOffsets;
