@@ -24,6 +24,16 @@ class AbstractData extends \ArrayObject implements
     protected $dtoData = [];
 
     /**
+     * Store property values to ignore
+     *
+     * @var string[]
+     */
+    protected $dtoIgnore = [
+        'dtoData',
+        'dtoIgnore',
+    ];
+
+    /**
      * Get all properties from object
      *
      * @param object $object
@@ -50,59 +60,34 @@ class AbstractData extends \ArrayObject implements
     }
 
     /**
-     * Set properties to destination
-     *
-     * @param object $destination
-     * @param array $properties
-     * @return void
-     */
-    private function setProperties(
-        object $destination,
-        array $properties = []
-    ) {
-        foreach ($properties as $name => $value) {
-            if (
-                !is_numeric($name)
-                && $name != 'dtoData'
-            ) {
-                $destination->set($name, $value);
-                unset($this->{$name});
-            }
-        }
-    }
-
-    /**
-     * Map properties from source to destination
-     *
-     * @param object $source
-     * @param object $destination
-     * @return void
-     */
-    private function mapProperties(
-        object $source,
-        object $destination
-    ) {
-        $this->setProperties(
-            $destination,
-            array_merge(
-                $this->getProperties($destination),
-                $this->getProperties((object) Arr::toArray($source))
-            )
-        );
-    }
-
-    /**
-     * Initialize the data transfer object
+     * Initialize the properties of abstract data
      *
      * @param object|array $data
      * @return void
      */
-    protected function init(object|array $source = [])
+    protected function initializeProperties(object|array $source = [])
     {
-        $this->mapProperties(
-            is_array($source) ? (object) $source : $source,
-            $this
-        );
+        $defaultProperties = $this->getProperties($this);
+
+        foreach ($defaultProperties as $property => $value) {
+            if (!in_array($property, $this->dtoIgnore)) {
+                unset($this->{$property});
+            }
+        }
+
+        foreach (
+            array_merge(
+                $defaultProperties,
+                $this->getProperties((object) Arr::toArray($source))
+            ) as $name => $value
+        ) {
+            if (
+                !is_numeric($name)
+                && !in_array($name, $this->dtoIgnore)
+            ) {
+                $this->set($name, $value);
+            }
+        }
     }
 
     /**
@@ -316,7 +301,7 @@ class AbstractData extends \ArrayObject implements
      */
     public function __construct(object|array $source = [])
     {
-        $this->init($source);
+        $this->initializeProperties($source);
     }
 
     /**
