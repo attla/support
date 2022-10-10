@@ -149,7 +149,7 @@ class AbstractData extends \ArrayObject implements
      * @param mixed $value
      * @return void
      */
-    protected function set(string $name, $value): void
+    public function set(string $name, $value): void
     {
         $setterValue = $undefined = '#!@undefined@!#';
 
