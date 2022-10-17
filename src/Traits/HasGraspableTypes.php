@@ -53,6 +53,18 @@ trait HasGraspableTypes
     }
 
     /**
+     * Returns the data value converted to array.
+     *
+     * @param string $key
+     * @param array $default
+     * @return array
+     */
+    public function getArray(string $key, array $default = []): array
+    {
+        return (array) $this->get($key, $default);
+    }
+
+    /**
      * Returns the data value converted to boolean.
      *
      * @param string $key
