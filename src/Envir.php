@@ -12,31 +12,6 @@ class Envir
     private static $memory;
 
     /**
-     * Undefined identification.
-     *
-     * @var string
-     */
-    private static $undefined = '!@#undefined#@!';
-
-    /**
-     * Try use a callable.
-     *
-     * @param callable $callback
-     * @return mixed
-     */
-    private static function try(callable $callback)
-    {
-        $value = static::$undefined;
-
-        try {
-            $value = $callback();
-        } catch (\Exception | \Throwable $e) {
-        }
-
-        return $value;
-    }
-
-    /**
      * Get the memory DataBag instance.
      *
      * @return DataBag
@@ -58,7 +33,7 @@ class Envir
      */
     public static function has(string $key): bool
     {
-        return static::get($key, static::$undefined) !== static::$undefined;
+        return Attempt::defined(static::get($key, Attempt::UNDEFINED));
     }
 
     /**
@@ -74,10 +49,10 @@ class Envir
             return static::memory()->get($key, $default);
         }
 
-        $value = static::try(fn() => env($key, $default));
-        $value === static::$undefined && $value = static::try(fn() => config($key, $default));
-
-        return $value === static::$undefined ? $default : $value;
+        return Attempt::resolve(fn() => env($key, $default))
+            ->or(fn() => config($key, $default))
+            ->default($default)
+            ->get();
     }
 
     /**
@@ -100,7 +75,7 @@ class Envir
      */
     public static function set(string $key, $value): void
     {
-        $void = static::try(fn() => config()->set($key, $value));
-        !is_null($void) && static::memory()->set($key, $value);
+        Attempt::resolve(fn() => config()->set($key, $value))
+            ->or(fn() => static::memory()->set($key, $value));
     }
 }
