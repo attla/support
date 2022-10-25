@@ -2,6 +2,8 @@
 
 namespace Attla\Support;
 
+use Illuminate\Support\Str as LaravelStr;
+
 class Str
 {
     /**
@@ -51,5 +53,29 @@ class Str
         }
 
         return serialize($unserialized) === $data;
+    }
+
+    /**
+     * Remove prefix from string
+     *
+     * @param string $data
+     * @param string[] ...$prefixes
+     * @return string
+     */
+
+    public static function removePrefix(string $data, ...$prefixes)
+    {
+        foreach ($prefixes as $prefix) {
+            if (
+                LaravelStr::startsWith(
+                    strtolower($data),
+                    strtolower($prefix = (string) $prefix)
+                )
+            ) {
+                $data = lcfirst(substr($data, strlen($prefix)));
+            }
+        }
+
+        return $data;
     }
 }

@@ -76,6 +76,7 @@ class AbstractData extends \ArrayObject implements
     protected function initializeProperties(object|array $source = [])
     {
         $defaultProperties = $this->getProperties($this);
+        $this->mutators = Obj::getNames(Obj::getPublicMethods(static::class));
 
         foreach ($defaultProperties as $property => $value) {
             if (!in_array($property, $this->dtoIgnore)) {
@@ -99,23 +100,6 @@ class AbstractData extends \ArrayObject implements
     }
 
     /**
-     * Remove prefix from property name
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function removePrefix(string $string, $prefixes = [])
-    {
-        foreach (Arr::toArray($prefixes) as $prefix) {
-            if (LaravelStr::startsWith(strtolower($string), strtolower($prefix))) {
-                $string = lcfirst(substr($string, strlen($prefix)));
-            }
-        }
-
-        return $string;
-    }
-
-    /**
      * Get an attribute value
      *
      * @param string $name
@@ -126,7 +110,7 @@ class AbstractData extends \ArrayObject implements
     {
         $originalName = $name;
 
-        $name = $this->removePrefix($name, 'get');
+        $name = Str::removePrefix($name, 'get');
 
         $value = $this->dtoData[$name] ?? $this->dtoData[$originalName] ?? null;
 
@@ -146,8 +130,9 @@ class AbstractData extends \ArrayObject implements
     protected function isset(string $name): bool
     {
         return key_exists($name, $this->dtoData)
-            || $this->hasMethod('get' . LaravelStr::studly($name = $this->removePrefix($name, 'get')))
-            || key_exists($name, $this->dtoData);
+            || $this->hasMethod('get' . LaravelStr::studly(
+                $name = Str::removePrefix($name, 'get', 'set')
+            )) || key_exists($name, $this->dtoData);
     }
 
     /**
@@ -161,7 +146,7 @@ class AbstractData extends \ArrayObject implements
     {
         $setterValue = $undefined = '#!@undefined@!#';
 
-        $name = $this->removePrefix($name, 'set');
+        $name = Str::removePrefix($name, 'set');
 
         if ($this->hasMethod($setter = 'set' . LaravelStr::studly($name))) {
             $setterValue = $this->{$setter}($value);
