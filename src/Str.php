@@ -46,7 +46,7 @@ class Str
 
         try {
             $unserialized = @unserialize($data);
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             return false;
         }
 
