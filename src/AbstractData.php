@@ -24,6 +24,13 @@ class AbstractData extends \ArrayObject implements
     protected $dtoData = [];
 
     /**
+     * Store dto methods methods.
+     *
+     * @var string[]
+     */
+    protected $mutators = [];
+
+    /**
      * Store property values to ignore
      *
      * @var string[]
@@ -31,6 +38,7 @@ class AbstractData extends \ArrayObject implements
     protected $dtoIgnore = [
         'dtoData',
         'dtoIgnore',
+        'mutators',
     ];
 
     /**
@@ -217,7 +225,7 @@ class AbstractData extends \ArrayObject implements
      */
     public function hasMethod(string $name): bool
     {
-        return method_exists($this, $name);
+        return in_array($name, $this->mutators);
     }
 
     /**
