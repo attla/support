@@ -317,7 +317,7 @@ class AbstractData extends \ArrayObject implements
      *
      * @param string $name
      * @param array $args
-     * @return mixed
+     * @return mixed|void
      */
     public function __call($name, array $args)
     {
