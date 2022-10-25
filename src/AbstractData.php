@@ -167,9 +167,7 @@ class AbstractData extends \ArrayObject implements
             $setterValue = $this->{$setter}($value);
         }
 
-        $self = get_called_class();
-
-        $this->dtoData[$name] = $setterValue !== $undefined && !$setterValue instanceof $self
+        $this->dtoData[$name] = $setterValue !== $undefined
             ? $setterValue
             : $value;
     }
