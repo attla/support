@@ -15,6 +15,7 @@ class AbstractData extends \ArrayObject implements
 {
     use Traits\HasMagicAttributes;
     use Traits\HasArrayOffsets;
+    use Traits\HasGraspableTypes;
 
     /**
      * Store property values
