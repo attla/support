@@ -128,7 +128,7 @@ class AbstractData extends \ArrayObject implements
      * @param string $name
      * @return bool
      */
-    protected function isset(string $name): bool
+    public function isset(string $name): bool
     {
         return key_exists($name, $this->dtoData)
             || $this->hasMethod('get' . LaravelStr::studly(
