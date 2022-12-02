@@ -33,7 +33,7 @@ class Extend
         return new static($class);
     }
 
-    public function to(string $class, int $access = null): self
+    public function to(string $class, int|null $access = null): self
     {
         $this->to[$class] = is_null($access) || !in_array($access, static::ACCESS_TYPES)
             ? static::STATIC
