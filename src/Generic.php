@@ -7,7 +7,7 @@ use Illuminate\Support\Arr as LaravelArr;
 class Generic
 {
     /**
-     * Sort array or string based on seed
+     * Sort array or string based on seed.
      *
      * @param array|string $data
      * @param integer|null $seed
@@ -28,5 +28,17 @@ class Generic
         array_multisort(array_map(fn () => mt_rand(), range(1, $size)), $sorted);
 
         return $isArray == 'array' ? $sorted : implode('', $sorted);
+    }
+
+    /**
+     * Determines if an array or string is unique.
+     *
+     * @param array|string $data
+     * @return bool
+     */
+    public static function isUnique(array|string $data): bool
+    {
+        $array = is_array($data) ? $data : str_split($data);
+        return count(array_unique($array)) == count($array);
     }
 }

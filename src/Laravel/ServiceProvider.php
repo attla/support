@@ -45,6 +45,7 @@ class ServiceProvider extends BaseServiceProvider
             ->to(Stringable::class, Extend::CALLABLE)
             ->methods(
                 'sortBySeed',
+                'isUnique',
             )->add();
     }
 }
