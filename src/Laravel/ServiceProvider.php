@@ -38,5 +38,13 @@ class ServiceProvider extends BaseServiceProvider
                 'isHttpQuery',
                 'isSerialized',
             )->add();
+
+        Extend::from(Generic::class)
+            ->to(LaravelArr::class)
+            ->to(LaravelStr::class)
+            ->to(Stringable::class, Extend::CALLABLE)
+            ->methods(
+                'sortBySeed',
+            )->add();
     }
 }
