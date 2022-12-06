@@ -63,7 +63,7 @@ class Str
      * @return string
      */
 
-    public static function removePrefix(string $data, ...$prefixes)
+    public static function removePrefix(string $data, ...$prefixes): string
     {
         foreach ($prefixes as $prefix) {
             if (
