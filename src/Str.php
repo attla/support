@@ -78,4 +78,15 @@ class Str
 
         return $data;
     }
+
+    /**
+     * Split multi bytes string.
+     *
+     * @param string $data
+     * @return array
+     */
+    public static function multiByteSplit(string $data): array
+    {
+        return preg_split('/(?!^)(?=.)/u', $data) ?: [];
+    }
 }

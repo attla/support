@@ -22,7 +22,7 @@ class Generic
         mt_srand($seed);
 
         $isArray = is_array($data);
-        $sorted = !$isArray ? str_split($data) : $data;
+        $sorted = !$isArray ? Str::multiByteSplit($data) : $data;
 
         $size = count($sorted);
         array_multisort(array_map(fn () => mt_rand(), range(1, $size)), $sorted);
