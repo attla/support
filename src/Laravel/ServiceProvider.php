@@ -35,8 +35,12 @@ class ServiceProvider extends BaseServiceProvider
             ->to(Stringable::class, Extend::CALLABLE)
             ->methods(
                 'isBase64',
+                'strlenBase64',
                 'isHttpQuery',
                 'isSerialized',
+                'isHex',
+                'removePrefix',
+                'multiByteSplit',
             )->add();
 
         Extend::from(Generic::class)
@@ -46,6 +50,7 @@ class ServiceProvider extends BaseServiceProvider
             ->methods(
                 'sortBySeed',
                 'isUnique',
+                'toInt',
             )->add();
     }
 }
