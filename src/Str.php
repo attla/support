@@ -56,6 +56,21 @@ class Str
     }
 
     /**
+     * Determines if an string is hex.
+     *
+     * @param string $data
+     * @return bool
+     */
+    public static function isHex(string $data): bool
+    {
+        try {
+            return ctype_xdigit($data);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Remove prefix from string
      *
      * @param string $data
