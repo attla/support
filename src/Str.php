@@ -7,7 +7,7 @@ use Illuminate\Support\Str as LaravelStr;
 class Str
 {
     /**
-     * Check value if was valid base64
+     * Check value if was valid base64.
      *
      * @param string $data
      * @return bool
@@ -15,6 +15,19 @@ class Str
     public static function isBase64($data): bool
     {
         return is_string($data) && base64_encode(base64_decode($data)) === $data;
+    }
+
+    /**
+     * Get base64 length.
+     *
+     * @param string $data
+     * @return int
+     */
+    public static function strlenBase64($data): int
+    {
+        return static::isBase64($data)
+            ? strlen(rtrim($data, '=')) * 3 / 4
+            : 0;
     }
 
     /**
