@@ -7,7 +7,7 @@ use Illuminate\Support\Str as LaravelStr;
 class Str
 {
     /**
-     * Check value if was valid base64.
+     * Determines if an string is base64.
      *
      * @param string $data
      * @return bool
@@ -42,7 +42,7 @@ class Str
     }
 
     /**
-     * Check value if was http query
+     * Determines if an string is http query
      *
      * @param string $data
      * @return bool
@@ -55,7 +55,7 @@ class Str
     }
 
     /**
-     * Check value if was serialized
+     * Determines if an string is serialized
      *
      * @param string $data
      * @return bool
