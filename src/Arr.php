@@ -39,6 +39,29 @@ class Arr
     }
 
     /**
+     * Check if value can be an array
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    public static function canBeArray($value)
+    {
+        if (
+            in_array(gettype($value), ['boolean', 'integer', 'double', 'string', 'array'])
+            || $value instanceof Model
+            || $value instanceof Enumerable
+            || $value instanceof Arrayable
+            || $value instanceof Jsonable
+            || $value instanceof \JsonSerializable
+            || $value instanceof \Traversable
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Randomize positions of an array
      *
      * @param array $array

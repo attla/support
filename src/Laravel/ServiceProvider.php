@@ -27,6 +27,7 @@ class ServiceProvider extends BaseServiceProvider
             ->to(LaravelArr::class)
             ->methods(
                 'toArray',
+                'canBeArray',
                 'randomized',
             )->add();
 
