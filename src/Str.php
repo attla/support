@@ -49,13 +49,9 @@ class Str
      */
     public static function isHttpQuery($data): bool
     {
-        if (!is_string($data) || !$data) {
-            return false;
-        }
-
-        return preg_match('/^([+\w\.\/%_-]+=([+\w\.\/%_-]*)?(&[+\w\.\/%_-]+(=[+\w\.\/%_-]*)?)*)?$/', $data)
-            ? true
-            : false;
+        return $data
+            && is_string($data)
+            && preg_match('/^([+\w\.\/%_-]+=([+\w\.\/%_-]*)?(&[+\w\.\/%_-]+(=[+\w\.\/%_-]*)?)*)?$/', $data) > 0;
     }
 
     /**
