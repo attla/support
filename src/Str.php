@@ -31,6 +31,17 @@ class Str
     }
 
     /**
+     * Determines if an string is binary.
+     *
+     * @param string $data
+     * @return bool
+     */
+    public static function isBinary($data)
+    {
+        return is_string($data) && preg_match('~[^\x20-\x7E\t\r\n]~', $data) > 0;
+    }
+
+    /**
      * Check value if was http query
      *
      * @param string $data

@@ -37,6 +37,7 @@ class ServiceProvider extends BaseServiceProvider
             ->methods(
                 'isBase64',
                 'strlenBase64',
+                'isBinary',
                 'isHttpQuery',
                 'isSerialized',
                 'isHex',
