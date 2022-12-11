@@ -17,7 +17,7 @@ class Arr
      * @param mixed $value
      * @return array
      */
-    public static function toArray($value)
+    public static function toArray($value): array
     {
         if (is_array($value)) {
             return $value;
@@ -44,7 +44,7 @@ class Arr
      * @param mixed $value
      * @return bool
      */
-    public static function canBeArray($value)
+    public static function canBeArray($value): bool
     {
         if (
             in_array(gettype($value), ['boolean', 'integer', 'double', 'string', 'array'])
@@ -67,7 +67,7 @@ class Arr
      * @param array $array
      * @return array
      */
-    public static function randomized($array)
+    public static function randomized($array): array
     {
         if (!is_array($array)) {
             $array = static::toArray($array);

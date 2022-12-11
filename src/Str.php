@@ -36,7 +36,7 @@ class Str
      * @param string $data
      * @return bool
      */
-    public static function isBinary($data)
+    public static function isBinary($data): bool
     {
         return is_string($data) && preg_match('~[^\x20-\x7E\t\r\n]~', $data) > 0;
     }
