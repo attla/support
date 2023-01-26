@@ -41,6 +41,7 @@ class ServiceProvider extends BaseServiceProvider
                 'isHttpQuery',
                 'isSerialized',
                 'isHex',
+                'randHex',
                 'removePrefix',
                 'multiByteSplit',
             )->add();

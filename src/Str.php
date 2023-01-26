@@ -91,6 +91,21 @@ class Str
     }
 
     /**
+     * Create a random hex
+     *
+     * @param int $length Optionally, a length of bytes to use
+     * @return string
+     */
+    public static function randHex(int $length = 32): string
+    {
+        do {
+            $hex = bin2hex(random_bytes(ceil($length / 2)));
+        } while (!$hex);
+
+        return strlen($hex) > $length ? substr($hex, 0, $length) : $hex;
+    }
+
+    /**
      * Remove prefix from string
      *
      * @param string $data
