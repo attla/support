@@ -143,14 +143,14 @@ class AbstractData extends \ArrayObject implements
      * @param mixed $value
      * @return void
      */
-    public function set(string $name, $value): void
+    public function set(string $name, $value = null): void
     {
         $setterValue = $undefined = '#!@undefined@!#';
 
         $name = Str::removePrefix($name, 'set');
 
         if ($this->hasMethod($setter = 'set' . LaravelStr::studly($name))) {
-            $setterValue = $this->{$setter}($value);
+            $setterValue = $this->{$setter}($value, $this->get($name));
         }
 
         $this->dtoData[$name] = $setterValue !== $undefined
