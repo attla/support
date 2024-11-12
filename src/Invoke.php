@@ -86,4 +86,29 @@ class Invoke
 
         return $app->call($instance, $params);
     }
+
+    /**
+     * Resolve the given type from the container.
+     *
+     * @param  string  $abstract
+     * @param  array  $parameters
+     * @return mixed
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function make($abstract, array $parameters = [])
+    {
+        return Container::getInstance()->make($abstract, $parameters);
+    }
+
+    /**
+     * Determine if a given string is an alias.
+     *
+     * @param  string  $name
+     * @return bool
+     */
+    public static function isAlias($name)
+    {
+        return Container::getInstance()->isAlias($name);
+    }
 }
