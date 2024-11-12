@@ -111,4 +111,25 @@ class Invoke
     {
         return Container::getInstance()->isAlias($name);
     }
+
+    /**
+     * Determine if the given abstract type has been bound.
+     *
+     * @param  string  $abstract
+     * @return bool
+     */
+    public static function bound($abstract)
+    {
+        return Container::getInstance()->bound($abstract);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
+    public static function has(string $id): bool
+    {
+        return static::bound($id);
+    }
 }
