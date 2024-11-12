@@ -132,4 +132,18 @@ class Invoke
     {
         return static::bound($id);
     }
+
+    /**
+     * Dynamically handle calls into the container instance.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     *
+     * @throws \BadMethodCallException
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        return Container::getInstance()->$method(...$parameters);
+    }
 }
