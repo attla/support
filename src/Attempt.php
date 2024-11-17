@@ -42,7 +42,7 @@ class Attempt
     public function __construct($value = null, $default = null)
     {
         $this->value = $value ?? static::UNDEFINED;
-        $this->$default = $default ?? static::UNDEFINED;
+        $this->default = $default ?? static::UNDEFINED;
     }
 
     /**
