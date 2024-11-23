@@ -12,13 +12,20 @@ class Envir
     private static $memory;
 
     /**
+     * Store the config instance
+     *
+     * @var \Illuminate\Config\Repository
+     */
+    private static $config;
+
+    /**
      * Get the memory DataBag instance.
      *
      * @return DataBag
      */
-    private static function memory()
+    private static function memory(): DataBag
     {
-        if (is_null(static::$memory)) {
+        if (empty(static::$memory)) {
             return static::$memory = new DataBag();
         }
 
@@ -50,7 +57,7 @@ class Envir
         }
 
         return Attempt::resolve(fn() => env($key, $default))
-            ->or(fn() => config($key, $default))
+            ->or(fn() => static::getConfig($key, $default))
             ->default($default)
             ->get();
     }
@@ -77,5 +84,23 @@ class Envir
     {
         Attempt::resolve(fn() => config()->set($key, $value))
             ->or(fn() => static::memory()->set($key, $value));
+    }
+
+    /**
+     * Retrieve a config value.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public static function getConfig(string $key, $default = null)
+    {
+        if (empty(static::$config)) {
+            static::$config = Attempt::resolve(fn() => config())
+                 ->default(new DataBag())
+                 ->get();
+        }
+
+        return static::$config->get($key, $default);
     }
 }
