@@ -10,7 +10,19 @@ class Attempt
      * @var string
      */
     public const UNDEFINED = '!@#undefined#@!';
+
+    /**
+     * Attempt value.
+     *
+     * @var mixed
+     */
     private $value;
+
+    /**
+     * Attempt default value.
+     *
+     * @var mixed
+     */
     private $default;
 
     /**
@@ -26,8 +38,7 @@ class Attempt
 
         try {
             $value = $callback();
-        } catch (\Exception | \Throwable $e) {
-        }
+        } catch (\Exception | \Throwable $e) {}
 
         return new static($value, $default);
     }
