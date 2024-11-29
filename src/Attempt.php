@@ -44,7 +44,29 @@ class Attempt
     }
 
     /**
-     * Create a new Attempt instance
+     * Check if value is defined.
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    public static function defined($value)
+    {
+        return static::UNDEFINED !== $value;
+    }
+
+    /**
+     * Check if value is undefined.
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    public static function undefined($value)
+    {
+        return !static::defined($value);
+    }
+
+    /**
+     * Create a new Attempt instance.
      *
      * @param mixed $value
      * @param mixed $default
@@ -100,28 +122,6 @@ class Attempt
     {
         $this->default = $default;
         return $this;
-    }
-
-    /**
-     * Check if value is defined.
-     *
-     * @param mixed $value
-     * @return bool
-     */
-    public static function defined($value)
-    {
-        return static::UNDEFINED !== $value;
-    }
-
-    /**
-     * Check if value is undefined.
-     *
-     * @param mixed $value
-     * @return bool
-     */
-    public static function undefined($value)
-    {
-        return !static::defined($value);
     }
 
     /**

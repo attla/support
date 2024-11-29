@@ -52,11 +52,7 @@ class Envir
      */
     public static function get(string $key, $default = null)
     {
-        if (static::memory()->has($key)) {
-            return static::memory()->get($key, $default);
-        }
-
-        return Attempt::resolve(fn() => env($key, $default))
+        return Attempt::resolve(fn() => static::getEnv($key, $default))
             ->or(fn() => static::getConfig($key, $default))
             ->default($default)
             ->get();
@@ -84,6 +80,24 @@ class Envir
     {
         Attempt::resolve(fn() => config()->set($key, $value))
             ->or(fn() => static::memory()->set($key, $value));
+    }
+
+    /**
+     * Retrieve a environment value.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public static function getEnv(string $key, $default = null)
+    {
+        if (static::memory()->has($key)) {
+            return static::memory()->get($key, $default);
+        }
+
+        return Attempt::resolve(fn() => env($key, $default))
+            ->default($default)
+            ->get();
     }
 
     /**
