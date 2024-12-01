@@ -73,6 +73,28 @@ class Obj
         return (new \ReflectionClass($object))->getMethods($visibility);
     }
 
+    /**
+     * Determine if the given object is a instance of parent.
+     *
+     * @param object|string $object
+     * @param object|string $parent
+     * @return bool
+     */
+    public static function instanceOf(object|string $object, object|string $parent): bool
+    {
+        is_object($object) && $object = get_class($object);
+        is_object($parent) && $parent = get_class($parent);
+
+        if (
+            is_subclass_of($object, $parent)
+            || $object === $parent
+            || in_array($parent, class_implements($object))
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Determine if the given invokable allows guests.
@@ -92,6 +114,7 @@ class Obj
 
         return false;
     }
+
     /**
      * Determine if the given class method allows guests.
      *
