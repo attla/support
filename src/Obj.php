@@ -73,6 +73,25 @@ class Obj
         return (new \ReflectionClass($object))->getMethods($visibility);
     }
 
+
+    /**
+     * Determine if the given invokable allows guests.
+     *
+     * @param callable|object|string $invokeable
+     * @return bool
+     */
+    public static function allowsGuests($invokeable, $method = null)
+    {
+        if (is_string($invokeable) || is_object($invokeable)) {
+            return static::methodAllowsGuests($invokeable, $method ?: '__construct');
+        }
+
+        if (is_callable($invokeable)) {
+            return static::callbackAllowsGuests($invokeable);
+        }
+
+        return false;
+    }
     /**
      * Determine if the given class method allows guests.
      *
