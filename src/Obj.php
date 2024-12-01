@@ -72,4 +72,56 @@ class Obj
     {
         return (new \ReflectionClass($object))->getMethods($visibility);
     }
+
+    /**
+     * Determine if the given class method allows guests.
+     *
+     * @param string $class
+     * @param string $method
+     * @return bool
+     */
+    public static function methodAllowsGuests($class, $method)
+    {
+        try {
+            $method = (new \ReflectionClass($class))->getMethod($method);
+        } catch (\Exception) {
+            return false;
+        }
+
+        if ($method) {
+            $parameters = $method->getParameters();
+            return isset($parameters[0]) && static::parameterAllowsGuests($parameters[0]);
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the given parameter allows guests.
+     *
+     * @param \ReflectionParameter $parameter
+     * @return bool
+     */
+    public static function parameterAllowsGuests($parameter)
+    {
+        return ($parameter->hasType() && $parameter->allowsNull()) ||
+               ($parameter->isDefaultValueAvailable() && is_null($parameter->getDefaultValue()));
+    }
+
+    /**
+     * Determine if the callback allows guests.
+     *
+     * @param callable $callback
+     * @return bool
+     */
+    public static function callbackAllowsGuests($callback)
+    {
+        try {
+            $parameters = (new \ReflectionFunction($callback))->getParameters();
+
+            return isset($parameters[0]) && static::parameterAllowsGuests($parameters[0]);
+        } catch (\Exception) {
+            return false;
+        }
+    }
 }
