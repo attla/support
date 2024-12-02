@@ -6,16 +6,14 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 
-class DataBag extends \ArrayObject implements
+class ListBag extends \ArrayObject implements
     Interfaces\Baggable,
-    Interfaces\GraspableTypes,
     Arrayable,
     Jsonable,
     \JsonSerializable
 {
     use Traits\HasMagicAttributes;
     use Traits\HasArrayOffsets;
-    use Traits\HasGraspableTypes;
 
     /**
      * Data storage.
@@ -25,14 +23,14 @@ class DataBag extends \ArrayObject implements
     protected $data = [];
 
     /**
-     * Create a new DataBag instance.
+     * Create a new ListBag instance.
      *
      * @param object|array $data
      * @return void
      */
     public function __construct(object|array $data = [])
     {
-        $this->data = Arr::toArray($data);
+        $this->data = array_values(Arr::toArray($data));
     }
 
     /**
@@ -58,12 +56,12 @@ class DataBag extends \ArrayObject implements
     /**
      * Returns true if a data key is defined.
      *
-     * @param string $key
+     * @param mixed $key
      * @return bool
      */
-    public function has(string $key): bool
+    public function has($key): bool
     {
-        return array_key_exists($key, $this->all());
+        return in_array($key, $this->data, true);
     }
 
     /**
@@ -95,9 +93,11 @@ class DataBag extends \ArrayObject implements
      * @param mixed $default
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
-        return $this->has($key) ? $this->data[$key] : $default;
+        return ($offset = array_search($key, $this->data, true)) !== false
+            ? $this->data[$offset]
+            : $default;
     }
 
     /**
@@ -106,7 +106,7 @@ class DataBag extends \ArrayObject implements
      * @param string $key
      * @return void
      */
-    public function remove(string $key): void
+    public function remove($key): void
     {
         unset($this->data[$key]);
     }
@@ -118,9 +118,13 @@ class DataBag extends \ArrayObject implements
      * @param mixed $value
      * @return void
      */
-    public function set(string $key, $value): void
+    public function set($key, $value): void
     {
-        $this->data[$key] = $value;
+        if (is_null($key)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$key] = $value;
+        }
     }
 
     /**
