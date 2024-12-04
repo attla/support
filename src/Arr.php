@@ -21,14 +21,14 @@ class Arr
     {
         if (is_array($value)) {
             return $value;
-        } elseif ($value instanceof Model) {
-            return $value->getAttributes();
         } elseif ($value instanceof Enumerable) {
             return $value->all();
         } elseif ($value instanceof Arrayable) {
             return $value->toArray();
         } elseif ($value instanceof Jsonable) {
             return json_decode($value->toJson(), true);
+        } elseif ($value instanceof Model) {
+            return $value->getAttributes();
         } elseif ($value instanceof \JsonSerializable) {
             return (array) $value->jsonSerialize();
         } elseif ($value instanceof \Traversable) {
